@@ -178,7 +178,7 @@ radius = 28.0713
 radius = 31.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hqosv"]
-radius = 277.116
+radius = 554.041
 
 [node name="kastan" type="CharacterBody2D"]
 texture_filter = 1
