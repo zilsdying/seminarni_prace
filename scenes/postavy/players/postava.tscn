@@ -1,0 +1,136 @@
+[gd_scene load_steps=13 format=3 uid="uid://c0vsi1u7qmlk3"]
+
+[ext_resource type="Texture2D" uid="uid://dsmdnvi3lpobl" path="res://pictures/postavy/hrac/hracTest/standing.png" id="1_1sssw"]
+[ext_resource type="Script" path="res://scripts/postavy/players/postava.gd" id="1_3i7dc"]
+[ext_resource type="PackedScene" uid="uid://qlpq4a4l4wgf" path="res://scenes/items/sword.tscn" id="3_qshdk"]
+[ext_resource type="Texture2D" uid="uid://jkdvyxo0b1j1" path="res://pictures/postavy/hrac/hracTest/walk.png" id="4_e7fe7"]
+[ext_resource type="Script" path="res://scripts/dalsi/MyHurtBox.gd" id="5_nsusv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qby3i"]
+size = Vector2(117, 201)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u17mk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_1sssw")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_e7fe7")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_id08j"]
+length = 0.1
+
+[sub_resource type="Animation" id="Animation_t2k73"]
+resource_name = "blasd"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("inner/AnimatedSprite2D/weapon:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(50, -78), Vector2(-41, -173)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("inner/AnimatedSprite2D/weapon:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [2.35619, 2.35619]
+}
+
+[sub_resource type="Animation" id="Animation_ayjqg"]
+resource_name = "sword"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("inner/AnimatedSprite2D/weapon:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(50, -78), Vector2(57, -145), Vector2(13, -195), Vector2(-47, -151), Vector2(-46, -84), Vector2(3, -55), Vector2(48, -83)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("inner/AnimatedSprite2D/weapon:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [2.35619, 1.5708, 0.0, -1.5708, -2.35619, -3.14159, -3.53429]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jm77p"]
+_data = {
+"RESET": SubResource("Animation_id08j"),
+"blasd": SubResource("Animation_t2k73"),
+"sword": SubResource("Animation_ayjqg")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jb4pq"]
+size = Vector2(144, 223)
+
+[node name="postava" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 25
+script = ExtResource("1_3i7dc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -100)
+shape = SubResource("RectangleShape2D_qby3i")
+
+[node name="inner" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="inner"]
+sprite_frames = SubResource("SpriteFrames_u17mk")
+animation = &"walk"
+autoplay = "idle"
+offset = Vector2(0, -100)
+
+[node name="weapon" type="Node2D" parent="inner/AnimatedSprite2D"]
+position = Vector2(50, -78)
+rotation = 2.35619
+scale = Vector2(2, 2)
+
+[node name="sword" parent="inner/AnimatedSprite2D/weapon" instance=ExtResource("3_qshdk")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="inner"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_jm77p")
+}
+
+[node name="MyHurtBox" type="Area2D" parent="inner"]
+collision_layer = 0
+collision_mask = 32
+script = ExtResource("5_nsusv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="inner/MyHurtBox"]
+position = Vector2(0, -99.5)
+shape = SubResource("RectangleShape2D_jb4pq")

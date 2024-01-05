@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://cpjmnmxdo4amx"]
+
+[ext_resource type="Texture2D" uid="uid://b8q5iugcg3ovs" path="res://pictures/pozadi/pozadi2.png" id="1_iw81w"]
+
+[node name="parallaxScene" type="Node2D"]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(0, -5)
+motion_mirroring = Vector2(640, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(0, 4)
+texture = ExtResource("1_iw81w")
+centered = false

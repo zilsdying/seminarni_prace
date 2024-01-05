@@ -1,0 +1,102 @@
+[gd_scene load_steps=13 format=3 uid="uid://c0kqjgxd5tpgv"]
+
+[ext_resource type="Script" path="res://scripts/postava/list.gd" id="1_1j5yk"]
+[ext_resource type="Texture2D" uid="uid://bpkyty0syvoe0" path="res://pictures/postavy/nepratele/list/idle/list.png" id="2_7xdir"]
+[ext_resource type="Texture2D" uid="uid://bdmp38m3doet8" path="res://pictures/postavy/nepratele/list/left/list.png" id="3_ydy4c"]
+[ext_resource type="Script" path="res://scripts/dalsi/MyHurtBox.gd" id="5_0ngpa"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vexls"]
+atlas = ExtResource("3_ydy4c")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d40l5"]
+atlas = ExtResource("3_ydy4c")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f2arq"]
+atlas = ExtResource("3_ydy4c")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p3as5"]
+atlas = ExtResource("3_ydy4c")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_grshn"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_7xdir")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vexls")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d40l5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f2arq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p3as5")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 4.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f0gbl"]
+radius = 30.5
+height = 66.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nr4rp"]
+radius = 16.5
+height = 52.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hqosv"]
+radius = 109.444
+
+[node name="nepritel_list" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("1_1j5yk")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_grshn")
+animation = &"walk"
+autoplay = "idle"
+offset = Vector2(2.5, -22)
+
+[node name="MyHurtBox" type="Area2D" parent="AnimatedSprite2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("5_0ngpa")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/MyHurtBox"]
+position = Vector2(0.5, -25)
+shape = SubResource("CapsuleShape2D_f0gbl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, -25)
+shape = SubResource("CapsuleShape2D_nr4rp")
+
+[node name="detection_area" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="detection_area"]
+position = Vector2(0.5, -25)
+shape = SubResource("CircleShape2D_hqosv")
+
+[connection signal="body_entered" from="detection_area" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="detection_area" to="." method="_on_detection_area_body_exited"]

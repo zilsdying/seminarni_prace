@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvspb7hnatp7p"]
+
+[ext_resource type="PackedScene" uid="uid://c0vsi1u7qmlk3" path="res://scenes/postavy/players/postava.tscn" id="1_unowp"]
+[ext_resource type="Script" path="res://scripts/postava/camera.gd" id="2_3kt8s"]
+
+[node name="players" type="Node2D"]
+
+[node name="postava" parent="." instance=ExtResource("1_unowp")]
+
+[node name="postava2" parent="." instance=ExtResource("1_unowp")]
+position = Vector2(218, -1)
+postava_id = 2
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("2_3kt8s")

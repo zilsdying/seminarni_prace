@@ -1,0 +1,66 @@
+[gd_scene load_steps=3 format=3 uid="uid://d4jhcbqm6o3f5"]
+
+[ext_resource type="Script" path="res://scripts/nastaveni/nastaveni.gd" id="1_j4tsd"]
+
+[sub_resource type="GDScript" id="GDScript_04cuu"]
+script/source = "extends OptionButton
+
+func _ready():
+	if DisplayServer.window_get_mode() == 3:
+		disabled = true
+
+"
+
+[node name="nastavení" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -9.0
+offset_top = 10.0
+offset_right = -9.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+script = ExtResource("1_j4tsd")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Fullscreen"
+
+[node name="FullscreenButton" type="CheckButton" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+allow_reselect = true
+script = SubResource("GDScript_04cuu")
+
+[node name="Back" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Zpět"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/FullscreenButton" to="." method="_on_check_button_pressed"]
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/HBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Back" to="." method="_on_back_pressed"]

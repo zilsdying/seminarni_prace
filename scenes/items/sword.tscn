@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://qlpq4a4l4wgf"]
+
+[ext_resource type="Texture2D" uid="uid://bpvfipjyldghp" path="res://pictures/items/nastroje/sword.png" id="1_r8ric"]
+[ext_resource type="Script" path="res://scripts/dalsi/MyHitBox.gd" id="2_2ins6"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_x5qxy"]
+radius = 7.77818
+height = 62.2254
+
+[node name="sword" type="Node2D"]
+
+[node name="Sword" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-0.5, -35)
+rotation = -0.785398
+texture = ExtResource("1_r8ric")
+
+[node name="MyHitBox" type="Area2D" parent="Sword"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("2_2ins6")
+knockback_power = 250
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sword/MyHitBox"]
+position = Vector2(4, -3)
+rotation = 0.785398
+shape = SubResource("CapsuleShape2D_x5qxy")
