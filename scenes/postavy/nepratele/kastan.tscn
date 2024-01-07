@@ -137,7 +137,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ko32i")
 }],
-"loop": true,
+"loop": false,
 "name": &"walk1",
 "speed": 5.0
 }, {

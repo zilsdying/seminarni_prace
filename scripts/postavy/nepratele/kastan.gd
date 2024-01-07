@@ -9,6 +9,8 @@ var slupka = true
 @export var after_slupka_health:int = 1
 @onready var animsprite2d = $inner/AnimatedSprite2D
 @onready var inner = $inner
+
+var animation_played = false
 var walk = 1
 func _ready() -> void:
 	currentHealth = MAX_HEALTH
@@ -23,21 +25,27 @@ func take_damage(amount,knockback):
 		currentHealth = after_slupka_health
 		walk = 2
 	if currentHealth<=0 && slupka == false:
-		queue_free()
+		animsprite2d.play("dead")
+		animation_played = true
 	
 func _physics_process(delta):
-	if not is_on_floor():
-		velocity.y += gravity * delta
-	if player_chase:
-		position += (player.owner.position + player.position - position)/speed
-		animsprite2d.play("walk"+str(walk))
-		if(player.owner.position.x + player.position.x - position.x) < 0:
-			inner.scale.x = sign(1)
-		else:
-			inner.scale.x = sign(-1)
+	if animation_played:
+		
+		if not animsprite2d.is_playing():
+			queue_free()
 	else:
-		velocity.x = 0
-		animsprite2d.play("idle")
+		if not is_on_floor():
+			velocity.y += gravity * delta
+		if player_chase:
+			position += (player.owner.position + player.position - position)/speed
+			animsprite2d.play("walk"+str(walk))
+			if(player.owner.position.x + player.position.x - position.x) < 0:
+				inner.scale.x = sign(1)
+			else:
+				inner.scale.x = sign(-1)
+		else:
+			velocity.x = 0
+			animsprite2d.play("idle")
 	move_and_slide()
 		
 func _on_detection_area_body_entered(body):
